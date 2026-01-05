@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Amour & Management</title>
+    <title>Et Vous ?</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
         :root {
             --rose-dark: #8B2942;
@@ -34,7 +33,6 @@
             overflow-x: hidden;
         }
 
-        /* Fond décoratif */
         body::before {
             content: '';
             position: fixed;
@@ -48,19 +46,6 @@
             z-index: 0;
         }
 
-        body::after {
-            content: '';
-            position: fixed;
-            bottom: -30%;
-            left: -20%;
-            width: 60vw;
-            height: 60vw;
-            background: radial-gradient(circle, rgba(212, 165, 116, 0.1) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 0;
-        }
-
         .container {
             max-width: 600px;
             margin: 0 auto;
@@ -69,7 +54,6 @@
             z-index: 1;
         }
 
-        /* Écran de connexion */
         .screen {
             display: none;
             animation: fadeIn 0.5s ease-out;
@@ -89,48 +73,38 @@
             50% { transform: scale(1.05); }
         }
 
-        @keyframes heartBeat {
-            0% { transform: scale(1); }
-            14% { transform: scale(1.15); }
-            28% { transform: scale(1); }
-            42% { transform: scale(1.15); }
-            70% { transform: scale(1); }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+        @keyframes countdown-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
 
         .logo-header {
             text-align: center;
-            padding: 40px 0 30px;
-        }
-
-        .logo-heart {
-            font-size: 3.5rem;
-            margin-bottom: 15px;
-            display: inline-block;
-            animation: float 3s ease-in-out infinite;
-            filter: drop-shadow(0 10px 20px rgba(196, 69, 105, 0.3));
+            padding: 60px 0 40px;
         }
 
         h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 2rem;
+            font-size: 3rem;
             font-weight: 700;
             color: var(--rose-dark);
-            margin-bottom: 8px;
+            margin-bottom: 15px;
             letter-spacing: 0.5px;
         }
 
         .subtitle {
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: var(--text-medium);
             font-weight: 500;
+            line-height: 1.6;
         }
 
-        /* Carte principale */
         .card {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(20px);
@@ -143,55 +117,19 @@
             border: 1px solid rgba(255, 255, 255, 0.6);
         }
 
-        /* Formulaire de connexion */
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--text-dark);
-            font-size: 0.95rem;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 16px 20px;
-            border: 2px solid var(--rose-light);
-            border-radius: 14px;
-            font-size: 1rem;
-            font-family: 'Quicksand', sans-serif;
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.8);
-        }
-
-        input[type="text"]:focus {
-            outline: none;
-            border-color: var(--rose-medium);
-            box-shadow: 0 0 0 4px rgba(196, 69, 105, 0.15);
-            background: white;
-        }
-
-        input[type="text"]::placeholder {
-            color: #B8A8B8;
-        }
-
         .btn {
             width: 100%;
-            padding: 18px 30px;
+            padding: 20px 30px;
             background: linear-gradient(135deg, var(--rose-medium) 0%, var(--rose-dark) 100%);
             color: white;
             border: none;
             border-radius: 14px;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 600;
             font-family: 'Quicksand', sans-serif;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(196, 69, 105, 0.35);
-            margin-top: 10px;
         }
 
         .btn:hover {
@@ -203,28 +141,30 @@
             transform: translateY(0);
         }
 
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
+        /* Quiz */
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
         }
 
-        /* Quiz */
         .progress-container {
-            margin-bottom: 30px;
+            flex: 1;
+            margin-right: 20px;
         }
 
         .progress-text {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 0.9rem;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
             color: var(--text-medium);
             font-weight: 500;
         }
 
         .progress-bar {
-            height: 8px;
+            height: 6px;
             background: var(--rose-pale);
             border-radius: 10px;
             overflow: hidden;
@@ -235,6 +175,85 @@
             background: linear-gradient(90deg, var(--rose-medium), var(--rose-dark));
             border-radius: 10px;
             transition: width 0.4s ease;
+        }
+
+        /* Timer */
+        .timer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 70px;
+        }
+
+        .timer-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--rose-pale);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--rose-dark);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .timer-circle.warning {
+            background: #FFF3CD;
+            color: #856404;
+            animation: countdown-pulse 0.5s ease-in-out infinite;
+        }
+
+        .timer-circle.danger {
+            background: #F8D7DA;
+            color: #721C24;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        .timer-circle svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .timer-circle svg circle {
+            fill: none;
+            stroke: var(--rose-medium);
+            stroke-width: 4;
+            stroke-linecap: round;
+            stroke-dasharray: 164;
+            stroke-dashoffset: 0;
+            transition: stroke-dashoffset 1s linear, stroke 0.3s ease;
+        }
+
+        .timer-circle.warning svg circle {
+            stroke: #FFC107;
+        }
+
+        .timer-circle.danger svg circle {
+            stroke: #DC3545;
+        }
+
+        .warning-message {
+            display: none;
+            background: #FFF3CD;
+            color: #856404;
+            padding: 12px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-align: center;
+            animation: shake 0.5s ease-in-out;
+            border: 1px solid #FFEEBA;
+        }
+
+        .warning-message.active {
+            display: block;
         }
 
         .question-card {
@@ -312,9 +331,10 @@
         }
 
         .option.selected .option-icon::after {
-            content: '♥';
+            content: '✓';
             color: var(--rose-dark);
             font-size: 12px;
+            font-weight: bold;
         }
 
         .nav-buttons {
@@ -373,35 +393,6 @@
             padding: 40px 30px;
         }
 
-        .result-heart {
-            margin-bottom: 25px;
-        }
-
-        .heart-big {
-            font-size: 8rem;
-            animation: heartBeat 1.5s ease-in-out infinite;
-            filter: drop-shadow(0 15px 30px rgba(196, 69, 105, 0.4));
-        }
-
-        .heart-medium {
-            font-size: 5rem;
-            animation: pulse 2s ease-in-out infinite;
-            filter: drop-shadow(0 10px 20px rgba(196, 69, 105, 0.3));
-        }
-
-        .heart-small {
-            font-size: 4rem;
-            opacity: 0.7;
-            filter: drop-shadow(0 5px 15px rgba(196, 69, 105, 0.2));
-        }
-
-        .result-name {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            color: var(--rose-dark);
-            margin-bottom: 10px;
-        }
-
         .result-title {
             font-family: 'Playfair Display', serif;
             font-size: 1.8rem;
@@ -430,35 +421,39 @@
             border: 2px solid var(--rose-light);
         }
 
-        .download-section {
+        .buttons-section {
             margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
         }
 
-        .btn-download {
+        .btn-reveal {
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            padding: 16px 30px;
-            background: linear-gradient(135deg, var(--gold) 0%, #C49B6A 100%);
+            padding: 18px 35px;
+            background: linear-gradient(135deg, var(--rose-medium) 0%, var(--rose-dark) 100%);
             color: white;
             border: none;
             border-radius: 14px;
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 600;
             font-family: 'Quicksand', sans-serif;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(212, 165, 116, 0.4);
+            box-shadow: 0 4px 15px rgba(196, 69, 105, 0.4);
         }
 
-        .btn-download:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(212, 165, 116, 0.5);
+        .btn-reveal:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 30px rgba(196, 69, 105, 0.5);
         }
 
         .btn-restart {
             display: block;
-            margin: 20px auto 0;
+            margin: 10px auto 0;
             padding: 14px 25px;
             background: transparent;
             color: var(--text-medium);
@@ -475,37 +470,116 @@
             color: var(--rose-dark);
         }
 
-        /* Zone à capturer */
-        #capture-zone {
-            background: linear-gradient(135deg, var(--cream) 0%, var(--rose-pale) 100%);
-            padding: 40px 30px;
-            border-radius: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        #capture-zone::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
+        /* Modal plein écran couleur */
+        .color-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, rgba(196, 69, 105, 0.1) 0%, transparent 70%);
-            pointer-events: none;
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.5s ease-out;
         }
 
-        .capture-content {
-            position: relative;
-            z-index: 1;
+        .color-modal.active {
+            display: flex;
         }
 
-        .capture-footer {
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 1px solid var(--rose-light);
-            font-size: 0.85rem;
+        .color-modal-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.5s ease;
+        }
+
+        .color-modal-content.red {
+            background: linear-gradient(135deg, #DC143C 0%, #8B0000 100%);
+        }
+
+        .color-modal-content.pink {
+            background: linear-gradient(135deg, #FF69B4 0%, #DB7093 100%);
+        }
+
+        .color-modal-content.white {
+            background: linear-gradient(135deg, #FFFFFF 0%, #F5F5F5 100%);
+        }
+
+        .modal-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            padding: 20px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .color-modal-content.red .modal-text,
+        .color-modal-content.pink .modal-text {
+            color: white;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .color-modal-content.white .modal-text {
+            color: var(--text-dark);
+        }
+
+        .modal-subtitle {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.2rem;
+            margin-top: 15px;
+            opacity: 0.9;
+        }
+
+        .color-modal-content.red .modal-subtitle,
+        .color-modal-content.pink .modal-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .color-modal-content.white .modal-subtitle {
             color: var(--text-medium);
+        }
+
+        .btn-close-modal {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .color-modal-content.white .btn-close-modal {
+            background: rgba(0, 0, 0, 0.1);
+            border-color: rgba(0, 0, 0, 0.2);
+            color: var(--text-dark);
+        }
+
+        .btn-close-modal:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .color-modal-content.white .btn-close-modal:hover {
+            background: rgba(0, 0, 0, 0.2);
         }
 
         /* Responsive */
@@ -515,7 +589,7 @@
             }
 
             h1 {
-                font-size: 1.7rem;
+                font-size: 2.5rem;
             }
 
             .card {
@@ -525,14 +599,6 @@
 
             .question-text {
                 font-size: 1.15rem;
-            }
-
-            .heart-big {
-                font-size: 6rem;
-            }
-
-            .heart-medium {
-                font-size: 4rem;
             }
 
             .result-title {
@@ -547,94 +613,82 @@
                 flex: none;
                 width: 100%;
             }
-        }
 
-        /* État de chargement */
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 20px;
-        }
+            .btn-close-modal {
+                top: 20px;
+                right: 20px;
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
 
-        .loading.active {
-            display: block;
-        }
+            .modal-text {
+                font-size: 2rem;
+                padding: 15px;
+            }
 
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid var(--rose-pale);
-            border-top-color: var(--rose-medium);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 15px;
-        }
+            .quiz-header {
+                flex-direction: column;
+                gap: 15px;
+            }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+            .progress-container {
+                margin-right: 0;
+                width: 100%;
+            }
 
-        /* Décoration supplémentaire */
-        .decorative-hearts {
-            position: fixed;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .floating-heart {
-            position: absolute;
-            opacity: 0.1;
-            animation: floatAround 20s ease-in-out infinite;
-        }
-
-        @keyframes floatAround {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(10px, -20px) rotate(5deg); }
-            50% { transform: translate(-5px, -10px) rotate(-3deg); }
-            75% { transform: translate(15px, -15px) rotate(7deg); }
+            .timer-container {
+                width: 100%;
+                flex-direction: row;
+                justify-content: center;
+                gap: 10px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Écran de connexion -->
+        <!-- Écran d'accueil -->
         <div id="login-screen" class="screen active">
             <div class="logo-header">
-                <div class="logo-heart">💖</div>
-                <h1>Amour & Management</h1>
-                <p class="subtitle">Découvrez votre style de leadership</p>
+                <h1>Et Vous ?</h1>
+                <p class="subtitle">Répondez à ces questions avec authenticité</p>
             </div>
             
             <div class="card">
-                <form id="login-form">
-                    <div class="form-group">
-                        <label for="prenom">Prénom</label>
-                        <input type="text" id="prenom" placeholder="Votre prénom" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="nom">Nom</label>
-                        <input type="text" id="nom" placeholder="Votre nom" required>
-                    </div>
-                    <button type="submit" class="btn">Commencer le quiz ♥</button>
-                </form>
+                <button class="btn" id="btn-start">Répondre aux questions</button>
             </div>
         </div>
 
         <!-- Écran du quiz -->
         <div id="quiz-screen" class="screen">
             <div class="logo-header" style="padding: 20px 0;">
-                <h1 style="font-size: 1.5rem;">Amour & Management</h1>
+                <h1 style="font-size: 1.8rem;">Et Vous ?</h1>
             </div>
             
             <div class="card">
-                <div class="progress-container">
-                    <div class="progress-text">
-                        <span>Progression</span>
-                        <span id="progress-label">1/10</span>
+                <div class="quiz-header">
+                    <div class="progress-container">
+                        <div class="progress-text">
+                            <span>Progression</span>
+                            <span id="progress-label">1/10</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-fill" style="width: 10%"></div>
+                        </div>
                     </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progress-fill" style="width: 10%"></div>
+                    <div class="timer-container">
+                        <div class="timer-circle" id="timer-circle">
+                            <svg viewBox="0 0 60 60">
+                                <circle cx="30" cy="30" r="26" id="timer-progress"></circle>
+                            </svg>
+                            <span id="timer-display">10</span>
+                        </div>
                     </div>
+                </div>
+
+                <div class="warning-message" id="warning-message">
+                    ⚠️ Dépêchez-vous ! Plus que 3 secondes...
                 </div>
 
                 <div class="question-card" id="question-card">
@@ -667,36 +721,30 @@
         <!-- Écran de résultat -->
         <div id="result-screen" class="screen">
             <div class="logo-header" style="padding: 20px 0;">
-                <h1 style="font-size: 1.5rem;">Amour & Management</h1>
+                <h1 style="font-size: 1.8rem;">Et Vous ?</h1>
             </div>
             
             <div class="card" id="result-card">
-                <div id="capture-zone">
-                    <div class="capture-content">
-                        <div class="result-heart" id="result-heart"></div>
-                        <p class="result-name" id="result-name"></p>
-                        <h2 class="result-title" id="result-title"></h2>
-                        <p class="result-message" id="result-message"></p>
-                        <div class="result-score" id="result-score"></div>
-                        <div class="capture-footer">
-                            Quiz Amour & Management • votresite.com
-                        </div>
-                    </div>
-                </div>
+                <h2 class="result-title" id="result-title"></h2>
+                <p class="result-message" id="result-message"></p>
+                <div class="result-score" id="result-score"></div>
 
-                <div class="download-section">
-                    <button class="btn-download" id="btn-download">
-                        <span>📥</span>
-                        <span>Télécharger mon résultat</span>
+                <div class="buttons-section">
+                    <button class="btn-reveal" id="btn-reveal">
+                        ✨ Découvrir ma couleur
                     </button>
                     <button class="btn-restart" id="btn-restart">Recommencer le quiz</button>
                 </div>
-
-                <div class="loading" id="loading">
-                    <div class="spinner"></div>
-                    <p>Préparation de votre image...</p>
-                </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal plein écran couleur -->
+    <div class="color-modal" id="color-modal">
+        <div class="color-modal-content" id="modal-content">
+            <button class="btn-close-modal" id="btn-close-modal">✕</button>
+            <h2 class="modal-text" id="modal-text"></h2>
+            <p class="modal-subtitle" id="modal-subtitle"></p>
         </div>
     </div>
 
@@ -747,11 +795,12 @@
 
         // État de l'application
         let state = {
-            userName: '',
-            userFirstName: '',
             currentQuestion: 0,
             answers: new Array(questions.length).fill(null),
-            score: 0
+            score: 0,
+            timer: null,
+            timeLeft: 10,
+            isWarning: false
         };
 
         // Éléments DOM
@@ -761,22 +810,68 @@
             result: document.getElementById('result-screen')
         };
 
-        // Gestion de la connexion
-        document.getElementById('login-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            state.userFirstName = document.getElementById('prenom').value.trim();
-            state.userName = document.getElementById('nom').value.trim();
-            
-            if (state.userFirstName && state.userName) {
-                showScreen('quiz');
-                renderQuestion();
-            }
+        const timerCircle = document.getElementById('timer-circle');
+        const timerDisplay = document.getElementById('timer-display');
+        const timerProgress = document.getElementById('timer-progress');
+        const warningMessage = document.getElementById('warning-message');
+
+        // Démarrer le quiz
+        document.getElementById('btn-start').addEventListener('click', function() {
+            showScreen('quiz');
+            renderQuestion();
+            startTimer();
         });
 
         // Afficher un écran
         function showScreen(screenName) {
             Object.values(screens).forEach(s => s.classList.remove('active'));
             screens[screenName].classList.add('active');
+        }
+
+        // Timer
+        function startTimer() {
+            clearInterval(state.timer);
+            state.timeLeft = 10;
+            state.isWarning = false;
+            updateTimerDisplay();
+            warningMessage.classList.remove('active');
+            timerCircle.classList.remove('warning', 'danger');
+
+            state.timer = setInterval(() => {
+                state.timeLeft--;
+                updateTimerDisplay();
+
+                if (state.timeLeft <= 0) {
+                    if (!state.isWarning) {
+                        // Première fois: afficher avertissement + 3 secondes
+                        state.isWarning = true;
+                        state.timeLeft = 3;
+                        warningMessage.classList.add('active');
+                        timerCircle.classList.add('danger');
+                    } else {
+                        // Deuxième fois: passer à la question suivante
+                        clearInterval(state.timer);
+                        warningMessage.classList.remove('active');
+                        goToNextQuestion();
+                    }
+                } else if (state.timeLeft <= 3 && !state.isWarning) {
+                    timerCircle.classList.add('warning');
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            timerDisplay.textContent = state.timeLeft;
+            
+            // Calculer le stroke-dashoffset pour l'animation circulaire
+            const maxTime = state.isWarning ? 3 : 10;
+            const circumference = 164; // 2 * PI * 26
+            const offset = circumference - (state.timeLeft / maxTime) * circumference;
+            timerProgress.style.strokeDashoffset = offset;
+        }
+
+        function stopTimer() {
+            clearInterval(state.timer);
         }
 
         // Rendre une question
@@ -789,7 +884,6 @@
             document.getElementById('progress-label').textContent = `${num}/10`;
             document.getElementById('progress-fill').style.width = `${num * 10}%`;
 
-            // Réinitialiser les options
             const options = document.querySelectorAll('.option');
             options.forEach(opt => {
                 opt.classList.remove('selected');
@@ -798,12 +892,26 @@
                 }
             });
 
-            // Gérer les boutons de navigation
             document.getElementById('btn-prev').style.display = state.currentQuestion > 0 ? 'block' : 'none';
             
             const btnNext = document.getElementById('btn-next');
             btnNext.disabled = state.answers[state.currentQuestion] === null;
-            btnNext.textContent = state.currentQuestion === questions.length - 1 ? 'Voir mon résultat ♥' : 'Suivant →';
+            btnNext.textContent = state.currentQuestion === questions.length - 1 ? 'Voir mon résultat' : 'Suivant →';
+
+            // Reset warning state
+            warningMessage.classList.remove('active');
+            timerCircle.classList.remove('warning', 'danger');
+        }
+
+        function goToNextQuestion() {
+            if (state.currentQuestion < questions.length - 1) {
+                state.currentQuestion++;
+                renderQuestion();
+                startTimer();
+            } else {
+                stopTimer();
+                calculateAndShowResult();
+            }
         }
 
         // Gestion des options
@@ -813,6 +921,10 @@
                 this.classList.add('selected');
                 state.answers[state.currentQuestion] = this.dataset.value;
                 document.getElementById('btn-next').disabled = false;
+                
+                // Reset warning when answer is selected
+                warningMessage.classList.remove('active');
+                state.isWarning = false;
             });
         });
 
@@ -821,16 +933,13 @@
             if (state.currentQuestion > 0) {
                 state.currentQuestion--;
                 renderQuestion();
+                startTimer();
             }
         });
 
         document.getElementById('btn-next').addEventListener('click', function() {
-            if (state.currentQuestion < questions.length - 1) {
-                state.currentQuestion++;
-                renderQuestion();
-            } else {
-                calculateAndShowResult();
-            }
+            stopTimer();
+            goToNextQuestion();
         });
 
         // Calculer et afficher le résultat
@@ -848,71 +957,78 @@
 
         // Afficher le résultat
         function renderResult() {
-            const heartEl = document.getElementById('result-heart');
-            const nameEl = document.getElementById('result-name');
             const titleEl = document.getElementById('result-title');
             const messageEl = document.getElementById('result-message');
             const scoreEl = document.getElementById('result-score');
 
-            nameEl.textContent = `${state.userFirstName} ${state.userName}`;
             scoreEl.textContent = `${state.score} / 20 points`;
 
             if (state.score >= 16) {
-                heartEl.innerHTML = '<div class="heart-big">💖</div>';
                 titleEl.textContent = 'Manager avec amour, ça vous parle !';
                 messageEl.textContent = 'Félicitations ! Vous avez intégré l\'amour comme moteur de votre management. Votre équipe a de la chance de vous avoir.';
             } else if (state.score >= 10) {
-                heartEl.innerHTML = '<div class="heart-medium">💗</div>';
                 titleEl.textContent = 'Vous êtes sur la bonne voie !';
                 messageEl.textContent = 'Vous avez de bonnes bases en management bienveillant. Quelques ajustements vous permettront d\'aller encore plus loin.';
             } else {
-                heartEl.innerHTML = '<div class="heart-small">🌱💕</div>';
                 titleEl.textContent = 'Il est temps de cultiver l\'amour';
                 messageEl.textContent = 'Le management par l\'amour est un chemin à parcourir. Chaque petit pas compte pour transformer votre leadership.';
             }
         }
 
-        // Télécharger l'image
-        document.getElementById('btn-download').addEventListener('click', async function() {
-            const captureZone = document.getElementById('capture-zone');
-            const loading = document.getElementById('loading');
-            const downloadBtn = this;
+        // Révéler la couleur en plein écran
+        document.getElementById('btn-reveal').addEventListener('click', function() {
+            const modal = document.getElementById('color-modal');
+            const modalContent = document.getElementById('modal-content');
+            const modalText = document.getElementById('modal-text');
+            const modalSubtitle = document.getElementById('modal-subtitle');
 
-            downloadBtn.style.display = 'none';
-            loading.classList.add('active');
+            // Supprimer les classes précédentes
+            modalContent.classList.remove('red', 'pink', 'white');
 
-            try {
-                const canvas = await html2canvas(captureZone, {
-                    scale: 2,
-                    backgroundColor: null,
-                    useCORS: true
-                });
-
-                const link = document.createElement('a');
-                link.download = `resultat-amour-management-${state.userFirstName.toLowerCase()}.png`;
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-            } catch (error) {
-                console.error('Erreur lors de la capture:', error);
-                alert('Une erreur est survenue. Veuillez réessayer.');
+            if (state.score >= 16) {
+                modalContent.classList.add('red');
+                modalText.textContent = 'L\'Amour guide vos pas';
+                modalSubtitle.textContent = 'Vous êtes un leader inspirant';
+            } else if (state.score >= 10) {
+                modalContent.classList.add('pink');
+                modalText.textContent = 'Sur le chemin de l\'Amour';
+                modalSubtitle.textContent = 'Continuez à cultiver la bienveillance';
+            } else {
+                modalContent.classList.add('white');
+                modalText.textContent = 'Un nouveau départ';
+                modalSubtitle.textContent = 'L\'amour s\'apprend, jour après jour';
             }
-
-            loading.classList.remove('active');
-            downloadBtn.style.display = 'inline-flex';
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
         });
+
+        // Fermer le modal
+        function closeModal() {
+            document.getElementById('color-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('btn-close-modal').addEventListener('click', closeModal);
 
         // Recommencer
         document.getElementById('btn-restart').addEventListener('click', function() {
             state = {
-                userName: '',
-                userFirstName: '',
                 currentQuestion: 0,
                 answers: new Array(questions.length).fill(null),
-                score: 0
+                score: 0,
+                timer: null,
+                timeLeft: 10,
+                isWarning: false
             };
-            document.getElementById('prenom').value = '';
-            document.getElementById('nom').value = '';
             showScreen('login');
+        });
+
+        // Fermer modal avec Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
         });
     </script>
 </body>
